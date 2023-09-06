@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.yango.common.exception.ExceptionCatch,\
+  com.yango.common.swagger.SwaggerConfiguration,\
+  com.yango.common.swagger.Swagger2Configuration,\
+  com.yango.common.tess4j.Tess4jClient,\
+  com.yango.common.redis.CacheService,\
+  com.yango.common.jackson.InitJacksonConfig
