@@ -42,10 +42,10 @@ public class MinIOTest {
                     .endpoint("http://192.168.162.101:9000")
                     .build();
             //upload
-            fis = new FileInputStream("D:\\AllRepository\\code_study_relate\\1.back-end\\17.黑马头条\\day02-app端文章查看，静态化freemarker,分布式文件系统minIO\\资料\\模板文件\\plugins\\js\\index.js");
+            fis = new FileInputStream("D:\\AllRepository\\code_study_relate\\1.back-end\\17.黑马头条\\day02-app端文章查看，静态化freemarker,分布式文件系统minIO\\资料\\模板文件\\plugins\\css\\index.css");
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
-                    .object("plugins/js/index.js")//文件名
-                    .contentType("text/js")//文件类型
+                    .object("plugins/css/index.css")//文件名
+                    .contentType("text/css")//文件类型
                     .bucket("leadnews")//桶名
                     .stream(fis,fis.available(),-1)//文件流
                     .build();
