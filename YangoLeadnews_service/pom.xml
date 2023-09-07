@@ -19,6 +19,7 @@
         <module>YangoLeadnews-search</module>
         <module>YangoLeadnews-admin</module>
         <module>YangoLeadnews-behavior</module>
+        <module>YangoLeadnews-comment</module>
     </modules>
 
     <properties>
