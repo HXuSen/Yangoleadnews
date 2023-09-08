@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.yango.apis.article.IArticleClient;
 import com.yango.article.service.ApArticleConfigService;
 import com.yango.article.service.ApArticleService;
+import com.yango.model.article.dtos.ArticleCommentDto;
 import com.yango.model.article.dtos.ArticleDto;
 import com.yango.model.article.pojos.ApArticleConfig;
+import com.yango.model.comment.dto.CommentConfigDto;
 import com.yango.model.common.dtos.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +38,17 @@ public class ArticleClient implements IArticleClient {
     public ResponseResult findArticleConfigByArticleId(@PathVariable("articleId") Long articleId) {
         ApArticleConfig articleConfig = apArticleConfigService.getOne(Wrappers.<ApArticleConfig>lambdaQuery().eq(ApArticleConfig::getArticleId, articleId));
         return ResponseResult.okResult(articleConfig);
+    }
+
+    @Override
+    @PostMapping("/api/v1/article/findNewsComments")
+    public ResponseResult findNewsComments(@RequestBody ArticleCommentDto dto) {
+        return apArticleService.findNewsComments(dto);
+    }
+
+    @Override
+    @PostMapping("/api/v1/article/updateCommentStatus")
+    public ResponseResult updateCommentStatus(@RequestBody CommentConfigDto dto) {
+        return apArticleConfigService.updateCommentStatus(dto);
     }
 }

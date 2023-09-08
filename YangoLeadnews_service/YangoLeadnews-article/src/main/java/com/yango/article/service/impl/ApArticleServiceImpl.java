@@ -11,13 +11,17 @@ import com.yango.article.service.ArticleFreemarkerService;
 import com.yango.common.constants.ArticleConstants;
 import com.yango.common.constants.BehaviorConstants;
 import com.yango.common.redis.CacheService;
+import com.yango.model.article.dtos.ArticleCommentDto;
 import com.yango.model.article.dtos.ArticleDto;
 import com.yango.model.article.dtos.ArticleHomeDto;
 import com.yango.model.article.dtos.ArticleInfoDto;
 import com.yango.model.article.pojos.ApArticle;
 import com.yango.model.article.pojos.ApArticleConfig;
 import com.yango.model.article.pojos.ApArticleContent;
+import com.yango.model.article.vo.ArticleCommentVo;
 import com.yango.model.article.vo.HotArticleVo;
+import com.yango.model.common.dtos.PageRequestDto;
+import com.yango.model.common.dtos.PageResponseResult;
 import com.yango.model.common.dtos.ResponseResult;
 import com.yango.model.common.enums.AppHttpCodeEnum;
 import com.yango.model.message.ArticleVisitStreamMess;
@@ -181,6 +185,18 @@ public class ApArticleServiceImpl extends ServiceImpl<ApArticleMapper, ApArticle
         replaceDataToRedis(apArticle,score,ArticleConstants.HOT_ARTICLE_FIRST_PAGE + apArticle.getChannelId());
         //4.替换推荐对应的热点数据
         replaceDataToRedis(apArticle,score,ArticleConstants.HOT_ARTICLE_FIRST_PAGE + ArticleConstants.DEFAULT_TAG);
+    }
+
+    @Override
+    public ResponseResult findNewsComments(ArticleCommentDto dto) {
+        Integer currentPage = dto.getPage();
+        dto.setPage((dto.getPage() - 1) * dto.getSize());
+        List<ArticleCommentVo> list = apArticleMapper.findNewsComment(dto);
+        int count = apArticleMapper.findNewsCommentsCount(dto);
+
+        PageResponseResult result = new PageResponseResult(currentPage,dto.getSize(),count);
+        result.setData(list);
+        return result;
     }
 
     private void replaceDataToRedis(ApArticle apArticle, Integer score, String type) {

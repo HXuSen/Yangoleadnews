@@ -1,6 +1,7 @@
 package com.yango.article.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yango.model.article.dtos.ArticleCommentDto;
 import com.yango.model.article.dtos.ArticleDto;
 import com.yango.model.article.dtos.ArticleHomeDto;
 import com.yango.model.article.dtos.ArticleInfoDto;
@@ -27,4 +28,6 @@ public interface ApArticleService extends IService<ApArticle> {
     ResponseResult load2(ArticleHomeDto dto, Short type,boolean firstPage);
 
     void updateScore(ArticleVisitStreamMess mess);
+
+    ResponseResult findNewsComments(ArticleCommentDto dto);
 }

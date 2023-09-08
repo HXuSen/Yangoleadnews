@@ -66,4 +66,5 @@ public class WemediaClient implements IWemediaClient {
                 .collect(Collectors.toList());
         return ResponseResult.okResult(sensitiveList);
     }
+
 }

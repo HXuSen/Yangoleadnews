@@ -31,7 +31,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -112,6 +111,7 @@ public class CommentServiceImpl implements CommentService {
             return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
         }
         ApComment apComment = mongoTemplate.findById(dto.getCommentId(), ApComment.class);
+
         if (apComment != null && dto.getOperation() == 0) {
             apComment.setLikes(apComment.getLikes() + 1);
             mongoTemplate.save(apComment);
@@ -129,7 +129,6 @@ public class CommentServiceImpl implements CommentService {
             Query query = Query.query(Criteria.where("commentId").is(apComment.getId()).and("authorId").is(user.getId()));
             mongoTemplate.remove(query, ApCommentLike.class);
         }
-
         Map<String,Object> map = new HashMap<>();
         map.put("likes",apComment.getLikes());
         return ResponseResult.okResult(map);

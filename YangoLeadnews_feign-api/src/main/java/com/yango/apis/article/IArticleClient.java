@@ -1,7 +1,9 @@
 package com.yango.apis.article;
 
 import com.yango.apis.article.fallback.IArticleClientFallback;
+import com.yango.model.article.dtos.ArticleCommentDto;
 import com.yango.model.article.dtos.ArticleDto;
+import com.yango.model.comment.dto.CommentConfigDto;
 import com.yango.model.common.dtos.ResponseResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,4 +27,10 @@ public interface IArticleClient {
 
     @GetMapping("/api/v1/article/findArticleConfigByArticleId/{articleId}")
     ResponseResult findArticleConfigByArticleId(@PathVariable("articleId") Long articleId);
+
+    @PostMapping("/api/v1/article/findNewsComments")
+    ResponseResult findNewsComments(@RequestBody ArticleCommentDto dto);
+
+    @PostMapping("/api/v1/article/updateCommentStatus")
+    ResponseResult updateCommentStatus(@RequestBody CommentConfigDto dto);
 }

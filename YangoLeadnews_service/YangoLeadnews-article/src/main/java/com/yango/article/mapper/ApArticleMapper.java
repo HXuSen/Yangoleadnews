@@ -1,8 +1,10 @@
 package com.yango.article.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yango.model.article.dtos.ArticleCommentDto;
 import com.yango.model.article.dtos.ArticleHomeDto;
 import com.yango.model.article.pojos.ApArticle;
+import com.yango.model.article.vo.ArticleCommentVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +30,8 @@ public interface ApArticleMapper extends BaseMapper<ApArticle> {
     List<ApArticle> loadArticleList(@Param("dto") ArticleHomeDto dto,@Param("type") Short type);
 
     List<ApArticle> findArticleListByLast5Day(@Param("dayParam")Date dayParam);
+
+    List<ArticleCommentVo> findNewsComment(@Param("dto") ArticleCommentDto dto);
+
+    int findNewsCommentsCount(@Param("dto") ArticleCommentDto dto);
 }

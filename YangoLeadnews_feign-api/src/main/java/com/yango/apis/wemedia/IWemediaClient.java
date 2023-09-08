@@ -30,4 +30,5 @@ public interface IWemediaClient {
 
     @GetMapping("/api/v1/allSensitives")
     ResponseResult getAllSensitive();
+
 }
