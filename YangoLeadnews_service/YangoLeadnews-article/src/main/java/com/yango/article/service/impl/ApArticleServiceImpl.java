@@ -1,7 +1,10 @@
 package com.yango.article.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yango.article.mapper.ApArticleConfigMapper;
 import com.yango.article.mapper.ApArticleContentMapper;
@@ -26,6 +29,8 @@ import com.yango.model.common.dtos.ResponseResult;
 import com.yango.model.common.enums.AppHttpCodeEnum;
 import com.yango.model.message.ArticleVisitStreamMess;
 import com.yango.model.user.pojos.ApUser;
+import com.yango.model.wemedia.dtos.StatisticsDto;
+import com.yango.utils.common.DateUtils;
 import com.yango.utils.thread.AppThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Cache;
@@ -197,6 +202,32 @@ public class ApArticleServiceImpl extends ServiceImpl<ApArticleMapper, ApArticle
         PageResponseResult result = new PageResponseResult(currentPage,dto.getSize(),count);
         result.setData(list);
         return result;
+    }
+
+    @Override
+    public PageResponseResult newPage(StatisticsDto dto) {
+        Date beginDate = DateUtils.stringToDate(dto.getBeginDate());
+        Date endDate = DateUtils.stringToDate(dto.getEndDate());
+
+        dto.checkParam();
+
+        IPage page = new Page(dto.getPage(),dto.getSize());
+        LambdaQueryWrapper<ApArticle> queryWrapper = Wrappers.<ApArticle>lambdaQuery()
+                .eq(ApArticle::getAuthorId, dto.getWmUserId())
+                .between(ApArticle::getPublishTime, beginDate, endDate)
+                .select(ApArticle::getId, ApArticle::getTitle, ApArticle::getLikes, ApArticle::getCollection, ApArticle::getComment);
+
+        page(page,queryWrapper);
+        PageResponseResult result = new PageResponseResult(dto.getPage(), dto.getSize(), (int) page.getTotal());
+        result.setData(page.getRecords());
+
+        return result;
+    }
+
+    @Override
+    public ResponseResult queryBehaviors(Integer wmUserId, Date beginDate, Date endDate) {
+        Map map = apArticleMapper.queryBehaviors(wmUserId,beginDate,endDate);
+        return ResponseResult.okResult(map);
     }
 
     private void replaceDataToRedis(ApArticle apArticle, Integer score, String type) {

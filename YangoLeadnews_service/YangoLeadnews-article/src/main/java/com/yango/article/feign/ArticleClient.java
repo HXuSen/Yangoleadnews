@@ -8,9 +8,13 @@ import com.yango.model.article.dtos.ArticleCommentDto;
 import com.yango.model.article.dtos.ArticleDto;
 import com.yango.model.article.pojos.ApArticleConfig;
 import com.yango.model.comment.dto.CommentConfigDto;
+import com.yango.model.common.dtos.PageResponseResult;
 import com.yango.model.common.dtos.ResponseResult;
+import com.yango.model.wemedia.dtos.StatisticsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * ClassName: ArticleClient
@@ -50,5 +54,17 @@ public class ArticleClient implements IArticleClient {
     @PostMapping("/api/v1/article/updateCommentStatus")
     public ResponseResult updateCommentStatus(@RequestBody CommentConfigDto dto) {
         return apArticleConfigService.updateCommentStatus(dto);
+    }
+
+    @Override
+    @PostMapping("/api/v1/article/newPage")
+    public PageResponseResult newPage(@RequestBody StatisticsDto dto) {
+        return apArticleService.newPage(dto);
+    }
+
+    @Override
+    @GetMapping("/api/v1/article/queryLikesAndConllections")
+    public ResponseResult queryBehaviors(@RequestParam("wmUserId") Integer wmUserId,@RequestParam("beginDate") Date beginDate,@RequestParam("endDate") Date endDate) {
+        return apArticleService.queryBehaviors(wmUserId,beginDate,endDate);
     }
 }

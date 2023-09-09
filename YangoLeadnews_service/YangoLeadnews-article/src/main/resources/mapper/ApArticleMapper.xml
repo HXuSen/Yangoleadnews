@@ -75,4 +75,14 @@
           AND aa.publish_time <![CDATA[>=]]> #{dto.beginDate}
           AND aa.publish_time <![CDATA[<]]> #{dto.endDate}
     </select>
+    <select id="queryBehaviors" resultType="java.util.Map">
+        SELECT sum(aa.likes) likes,sum(aa.collection) collections,count(aa.id) newsCount
+        FROM ap_article aa,ap_article_config aac
+        WHERE aa.id = aac.article_id
+        AND aac.is_delete != 1
+        AND aac.is_down != 1
+        AND aa.author_id = #{wmUserId}
+        AND aa.publish_time <![CDATA[>=]]> #{beginDate}
+        AND aa.publish_time <![CDATA[<]]> #{endDate}
+    </select>
 </mapper>

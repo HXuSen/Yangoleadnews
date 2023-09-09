@@ -7,9 +7,11 @@ import com.yango.model.article.pojos.ApArticle;
 import com.yango.model.article.vo.ArticleCommentVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: ApArticleMapper
@@ -34,4 +36,7 @@ public interface ApArticleMapper extends BaseMapper<ApArticle> {
     List<ArticleCommentVo> findNewsComment(@Param("dto") ArticleCommentDto dto);
 
     int findNewsCommentsCount(@Param("dto") ArticleCommentDto dto);
+
+    Map queryBehaviors(@RequestParam("wmUserId") Integer wmUserId, @RequestParam("beginDate") Date beginDate, @RequestParam("endDate") Date endDate);
+
 }
